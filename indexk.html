@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja" class="text-[14px] md:text-[16px]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>学習塾LIBERTY | 発達障がい・不登校のお子様のための個別指導塾</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #98d900;
+            --primary-dark: #7cb200;
+            --secondary: #fff9e6;
+            --accent: #ff9800;
+            --text: #333;
+        }
+
+        html, body {
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            color: var(--text);
+            background-color: #fff;
+            line-height: 1.6;
+        }
+
+        .bg-lime-liberty { background-color: var(--primary); }
+        .text-lime-liberty { color: var(--primary); }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(152, 217, 0, 0.08) 0%, rgba(255, 249, 230, 0.4) 100%);
+        }
+
+        .btn-main {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 1.1rem;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        /* 電話リンクのクリック判定とフィードバック */
+        .phone-link {
+            transition: all 0.1s ease-in-out;
+            cursor: pointer;
+            display: inline-flex;
+            text-decoration: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .phone-link:active {
+            transform: scale(0.95);
+            opacity: 0.9;
+        }
+
+        /* コピー完了通知用 */
+        #copy-toast {
+            visibility: hidden;
+            min-width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+        }
+        #copy-toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        @media (max-width: 768px) {
+            .hero-min-h {
+                min-height: auto;
+                padding-bottom: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- コピー通知 -->
+    <div id="copy-toast">電話番号をコピーしました</div>
+
+    <!-- ナビゲーション -->
+    <nav class="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-lime-liberty rounded-full flex items-center justify-center text-white font-bold text-lg">L</div>
+                <h1 class="text-base md:text-xl font-bold text-lime-liberty">学習塾LIBERTY</h1>
+            </div>
+            <!-- OS標準の動作を阻害しない記述 -->
+            <a href="tel:09063656351" class="phone-link bg-[#ff9800] text-white px-4 py-2 rounded-full font-bold text-xs md:text-sm shadow-md flex items-center shrink-0">
+                📞 <span class="ml-1 text-sm">電話をかける</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- ヒーローセクション -->
+    <section class="relative min-h-screen flex items-center pt-24 overflow-hidden hero-gradient hero-min-h">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div class="relative fade-in order-1 md:order-2">
+                <div class="rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-white aspect-[4/3]">
+                    <img src="https://lh3.googleusercontent.com/u/0/d/1sFcFPT-3sPwpIfytbBbBDCd3eJg4WArL" alt="学習塾のイメージ" class="w-full h-full object-cover">
+                </div>
+            </div>
+            <div class="fade-in order-2 md:order-1 text-center md:text-left">
+                <span class="bg-lime-liberty text-white px-3 py-0.5 rounded-full text-xs font-bold mb-3 inline-block">名古屋市天白区の個別指導塾</span>
+                <h2 class="text-2xl md:text-4xl font-bold leading-tight mb-5">
+                    とにかく楽しく！<br>
+                    <span class="text-lime-liberty">自信</span>につながる学びを
+                </h2>
+                <p class="text-base text-gray-700 mb-8 leading-relaxed px-2 md:px-0">
+                    学習塾LIBERTYは、発達障がいや不登校でお悩みのお子様に寄り添い、勉強の「苦手」を「楽しい」に変える場所です。
+                </p>
+                <div class="flex flex-col gap-4 items-center md:items-start">
+                    <a href="#contact" class="btn-main">無料で相談してみる</a>
+                    <p class="text-lime-liberty font-bold text-sm">＼ 自分のペースで一歩ずつ ／</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- アクセスセクション -->
+    <section id="access" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-10 fade-in">
+                <h2 class="text-2xl md:text-3xl font-bold mb-3">教室のご案内</h2>
+                <div class="w-16 h-1 bg-lime-liberty mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="fade-in bg-secondary p-8 rounded-2xl border border-lime-100 flex flex-col justify-center text-center md:text-left">
+                    <h3 class="text-2xl font-bold mb-6 text-lime-liberty">学習塾 LIBERTY</h3>
+                    <p class="mb-4 text-gray-700">📍 名古屋市天白区植田東2‐1207<br>アイカピア植田106号室</p>
+                    
+                    <!-- 確実に発信する標準的なリンク -->
+                    <a href="tel:09063656351" class="phone-link inline-flex items-center justify-center md:justify-start bg-white border-2 border-lime-liberty text-gray-800 p-4 rounded-xl shadow-sm mb-2">
+                        <span class="text-2xl mr-2">📞</span>
+                        <span class="text-2xl font-bold">090-6365-6351</span>
+                    </a>
+                    <button onclick="copyNumber('09063656351')" class="text-xs text-gray-500 underline mb-6">番号をコピーする</button>
+                    
+                    <div class="text-sm text-gray-700">
+                        <p class="font-bold">開校時間</p>
+                        <p>平日：18:00 ～ 21:00 / 土曜：9:00 ～ 12:00</p>
+                    </div>
+                </div>
+                <div class="fade-in h-72 rounded-2xl overflow-hidden shadow-md">
+                    <iframe 
+                        src="https://maps.google.com/maps?q=名古屋市天白区植田東2‐1207&z=16&output=embed" 
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- お問い合わせセクション -->
+    <section id="contact" class="py-16 bg-lime-liberty text-white text-center">
+        <div class="container mx-auto px-4 fade-in">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6">まずはお気軽にご相談ください</h2>
+            <p class="mb-8 opacity-95">体験授業や、お子様のお悩み相談も随時受け付けております。</p>
+            
+            <div class="flex flex-col items-center gap-4">
+                <a href="tel:09063656351" class="phone-link bg-white text-lime-liberty px-8 py-5 rounded-full font-bold text-xl md:text-2xl shadow-2xl inline-flex items-center">
+                    📞 <span class="ml-2">電話でお問い合わせ</span>
+                </a>
+                <button onclick="copyNumber('09063656351')" class="text-sm bg-lime-700/30 px-4 py-2 rounded-lg">
+                    番号をコピーして貼り付ける
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-10">
+        <div class="container mx-auto px-4 text-center text-gray-400 text-xs">
+            &copy; 2024 学習塾 LIBERTY All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * 番号をクリップボードにコピーする予備機能
+         */
+        function copyNumber(text) {
+            const tempInput = document.createElement("input");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            
+            const toast = document.getElementById("copy-toast");
+            toast.className = "show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // フェードインの監視
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // スムーススクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
