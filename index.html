@@ -32,12 +32,6 @@
             line-height: 1.6;
         }
 
-        /* 横幅いっぱいの背景色用。スマホで横スクロールが発生しないように調整 */
-        .full-width-section {
-            width: 100%;
-            position: relative;
-        }
-
         .bg-lime-liberty { background-color: var(--primary); }
         .text-lime-liberty { color: var(--primary); }
         
@@ -55,24 +49,6 @@
             background: linear-gradient(135deg, rgba(152, 217, 0, 0.08) 0%, rgba(255, 249, 230, 0.4) 100%);
         }
 
-        .card-hover:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.08);
-        }
-
-        .blob {
-            position: absolute;
-            z-index: -1;
-            filter: blur(40px);
-            opacity: 0.3;
-            animation: move 20s infinite alternate;
-        }
-
-        @keyframes move {
-            from { transform: translate(0, 0); }
-            to { transform: translate(30px, 30px); }
-        }
-
         .btn-main {
             background-color: var(--primary);
             color: white;
@@ -83,17 +59,48 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
-            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             font-size: 1.1rem;
             width: 100%;
             max-width: 300px;
         }
-        .btn-main:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-1px);
+
+        /* 電話リンクのクリック判定とフィードバック */
+        .phone-link {
+            transition: all 0.1s ease-in-out;
+            cursor: pointer;
+            display: inline-flex;
+            text-decoration: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .phone-link:active {
+            transform: scale(0.95);
+            opacity: 0.9;
         }
 
-        /* スマホ向けにマップなどの高さを最適化 */
+        /* コピー完了通知用 */
+        #copy-toast {
+            visibility: hidden;
+            min-width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+        }
+        #copy-toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
         @media (max-width: 768px) {
             .hero-min-h {
                 min-height: auto;
@@ -104,6 +111,9 @@
 </head>
 <body>
 
+    <!-- コピー通知 -->
+    <div id="copy-toast">電話番号をコピーしました</div>
+
     <!-- ナビゲーション -->
     <nav class="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
@@ -111,19 +121,16 @@
                 <div class="w-8 h-8 bg-lime-liberty rounded-full flex items-center justify-center text-white font-bold text-lg">L</div>
                 <h1 class="text-base md:text-xl font-bold text-lime-liberty">学習塾LIBERTY</h1>
             </div>
-            <a href="tel:08048408907" class="bg-[#ff9800] text-white px-3 py-1.5 rounded-full font-bold text-xs md:text-sm shadow-sm flex items-center shrink-0">
-                📞 080-4840-8907
+            <!-- OS標準の動作を阻害しない記述 -->
+            <a href="tel:09063656351" class="phone-link bg-[#ff9800] text-white px-4 py-2 rounded-full font-bold text-xs md:text-sm shadow-md flex items-center shrink-0">
+                📞 <span class="ml-1 text-sm">電話をかける</span>
             </a>
         </div>
     </nav>
 
     <!-- ヒーローセクション -->
-    <section class="full-width-section relative min-h-screen flex items-center pt-24 overflow-hidden hero-gradient hero-min-h">
-        <div class="blob w-64 h-64 bg-lime-400 top-10 left-5 rounded-full"></div>
-        <div class="blob w-80 h-80 bg-yellow-200 bottom-5 right-5 rounded-full" style="animation-delay: -5s;"></div>
-
+    <section class="relative min-h-screen flex items-center pt-24 overflow-hidden hero-gradient hero-min-h">
         <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <!-- スマホでは画像を先に表示 -->
             <div class="relative fade-in order-1 md:order-2">
                 <div class="rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-white aspect-[4/3]">
                     <img src="https://lh3.googleusercontent.com/u/0/d/1sFcFPT-3sPwpIfytbBbBDCd3eJg4WArL" alt="学習塾のイメージ" class="w-full h-full object-cover">
@@ -146,83 +153,7 @@
         </div>
     </section>
 
-    <!-- 対象セクション -->
-    <section id="target" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-10 fade-in">
-                <h2 class="text-2xl md:text-3xl font-bold mb-3">こんな悩み、ありませんか？</h2>
-                <div class="w-16 h-1 bg-lime-liberty mx-auto rounded-full"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-secondary p-8 rounded-2xl border-b-4 border-lime-liberty fade-in card-hover shadow-sm text-center">
-                    <div class="text-4xl mb-4">📖</div>
-                    <h3 class="text-xl font-bold mb-3">勉強がとにかく苦手</h3>
-                    <p class="text-gray-600">どこから手を付けていいかわからない、勉強が嫌いになってしまったお子様をサポート。</p>
-                </div>
-                <div class="bg-secondary p-8 rounded-2xl border-b-4 border-lime-liberty fade-in card-hover shadow-sm text-center">
-                    <div class="text-4xl mb-4">🎒</div>
-                    <h3 class="text-xl font-bold mb-3">学校に行きづらい</h3>
-                    <p class="text-gray-600">不登校や行き渋りがあるお子様が、安心して学習できる「第2の居場所」を提供。</p>
-                </div>
-                <div class="bg-secondary p-8 rounded-2xl border-b-4 border-lime-liberty fade-in card-hover shadow-sm text-center">
-                    <div class="text-4xl mb-4">✨</div>
-                    <h3 class="text-xl font-bold mb-2">発達の特性がある</h3>
-                    <p class="text-xs font-bold mb-3 text-gray-500">（ADHD・自閉症など）</p>
-                    <p class="text-gray-600">特性に合わせた声掛けや学習方法を提案。お子様の「強み」を伸ばす指導を行います。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 特徴セクション -->
-    <section id="features" class="py-16 bg-lime-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-10 fade-in">
-                <h2 class="text-2xl md:text-3xl font-bold mb-3">LIBERTYが選ばれる理由</h2>
-                <div class="w-16 h-1 bg-lime-liberty mx-auto"></div>
-            </div>
-
-            <div class="space-y-8 md:space-y-12">
-                <!-- 理由1 -->
-                <div class="flex flex-col md:flex-row items-center gap-6 md:gap-8 fade-in bg-white p-5 md:p-6 rounded-3xl shadow-sm">
-                    <div class="w-full md:w-1/2 h-56 md:h-64 rounded-2xl overflow-hidden">
-                        <img src="https://lh3.googleusercontent.com/u/0/d/10hHb_vicc7KLjVICyuuiPWac_z7OqKXm" alt="個別指導" class="w-full h-full object-cover">
-                    </div>
-                    <div class="w-full md:w-1/2 text-center md:text-left">
-                        <span class="text-lime-liberty font-bold text-4xl opacity-20 block md:inline">01</span>
-                        <h3 class="text-xl font-bold mb-3 md:mb-4">一人ひとりに合わせた完全個別カリキュラム</h3>
-                        <p class="text-gray-600 text-sm md:text-base">お子様のコンディションに合わせ、その日に最適な内容で進めます。無理に押し付けることはありません。</p>
-                    </div>
-                </div>
-
-                <!-- 理由2 (スマホでも順序は画像→テキストで統一) -->
-                <div class="flex flex-col md:flex-row-reverse items-center gap-6 md:gap-8 fade-in bg-white p-5 md:p-6 rounded-3xl shadow-sm">
-                    <div class="w-full md:w-1/2 h-56 md:h-64 rounded-2xl overflow-hidden">
-                        <img src="https://lh3.googleusercontent.com/u/0/d/1htvOH48shysKwW_BiuCO6PfSGmPvpHfS" alt="安心できる環境" class="w-full h-full object-cover">
-                    </div>
-                    <div class="w-full md:w-1/2 text-center md:text-left">
-                        <span class="text-lime-liberty font-bold text-4xl opacity-20 block md:inline">02</span>
-                        <h3 class="text-xl font-bold mb-3 md:mb-4">「否定しない」安心できる居場所</h3>
-                        <p class="text-gray-600 text-sm md:text-base">勉強ができなくても大丈夫。LIBERTYではまず「安心」を大切にします。小さな努力を一つひとつ褒めて認めます。</p>
-                    </div>
-                </div>
-
-                <!-- 理由3 -->
-                <div class="flex flex-col md:flex-row items-center gap-6 md:gap-8 fade-in bg-white p-5 md:p-6 rounded-3xl shadow-sm">
-                    <div class="w-full md:w-1/2 h-56 md:h-64 rounded-2xl overflow-hidden">
-                        <img src="https://lh3.googleusercontent.com/u/0/d/1ANKzFO7KzerZpJojY1lrMsvKzwnwSUDj" alt="楽しい学習" class="w-full h-full object-cover">
-                    </div>
-                    <div class="w-full md:w-1/2 text-center md:text-left">
-                        <span class="text-lime-liberty font-bold text-4xl opacity-20 block md:inline">03</span>
-                        <h3 class="text-xl font-bold mb-3 md:mb-4">「わかる！」を増やす工夫</h3>
-                        <p class="text-gray-600 text-sm md:text-base">視覚的な教材やゲーム感覚の課題など、飽きさせない楽しい学習体験を提供し、達成感を育みます。</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- アクセス -->
+    <!-- アクセスセクション -->
     <section id="access" class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-10 fade-in">
@@ -233,16 +164,21 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="fade-in bg-secondary p-8 rounded-2xl border border-lime-100 flex flex-col justify-center text-center md:text-left">
                     <h3 class="text-2xl font-bold mb-6 text-lime-liberty">学習塾 LIBERTY</h3>
-                    <p class="mb-4">📍 名古屋市天白区植田東2‐1207<br>アイカピア植田106号室</p>
-                    <a href="tel:08048408907" class="text-2xl font-bold text-gray-800 flex items-center justify-center md:justify-start mb-6">
-                        📞 080-4840-8907
+                    <p class="mb-4 text-gray-700">📍 名古屋市天白区植田東2‐1207<br>アイカピア植田106号室</p>
+                    
+                    <!-- 確実に発信する標準的なリンク -->
+                    <a href="tel:09063656351" class="phone-link inline-flex items-center justify-center md:justify-start bg-white border-2 border-lime-liberty text-gray-800 p-4 rounded-xl shadow-sm mb-2">
+                        <span class="text-2xl mr-2">📞</span>
+                        <span class="text-2xl font-bold">090-6365-6351</span>
                     </a>
+                    <button onclick="copyNumber('09063656351')" class="text-xs text-gray-500 underline mb-6">番号をコピーする</button>
+                    
                     <div class="text-sm text-gray-700">
                         <p class="font-bold">開校時間</p>
                         <p>平日：18:00 ～ 21:00 / 土曜：9:00 ～ 12:00</p>
                     </div>
                 </div>
-                <div class="fade-in h-72 md:h-80 rounded-2xl overflow-hidden shadow-md">
+                <div class="fade-in h-72 rounded-2xl overflow-hidden shadow-md">
                     <iframe 
                         src="https://maps.google.com/maps?q=名古屋市天白区植田東2‐1207&z=16&output=embed" 
                         width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
@@ -252,35 +188,52 @@
         </div>
     </section>
 
-    <!-- お問い合わせ -->
+    <!-- お問い合わせセクション -->
     <section id="contact" class="py-16 bg-lime-liberty text-white text-center">
         <div class="container mx-auto px-4 fade-in">
-            <h2 class="text-2xl md:text-3xl font-bold mb-6 px-2">まずはお気軽にご相談ください</h2>
+            <h2 class="text-2xl md:text-3xl font-bold mb-6">まずはお気軽にご相談ください</h2>
             <p class="mb-8 opacity-95">体験授業や、お子様のお悩み相談も随時受け付けております。</p>
-            <a href="tel:08048408907" class="bg-white text-lime-liberty px-6 md:px-10 py-4 md:py-5 rounded-full font-bold text-xl md:text-2xl hover:scale-105 transition shadow-xl inline-flex items-center">
-                📞 080-4840-8907
-            </a>
+            
+            <div class="flex flex-col items-center gap-4">
+                <a href="tel:09063656351" class="phone-link bg-white text-lime-liberty px-8 py-5 rounded-full font-bold text-xl md:text-2xl shadow-2xl inline-flex items-center">
+                    📞 <span class="ml-2">電話でお問い合わせ</span>
+                </a>
+                <button onclick="copyNumber('09063656351')" class="text-sm bg-lime-700/30 px-4 py-2 rounded-lg">
+                    番号をコピーして貼り付ける
+                </button>
+            </div>
         </div>
     </section>
 
-    <!-- フッター -->
     <footer class="bg-gray-800 text-white py-10">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-lg font-bold mb-4">学習塾 LIBERTY</p>
-            <div class="text-gray-400 text-xs">
-                &copy; 2024 学習塾 LIBERTY All Rights Reserved.
-            </div>
+        <div class="container mx-auto px-4 text-center text-gray-400 text-xs">
+            &copy; 2024 学習塾 LIBERTY All Rights Reserved.
         </div>
     </footer>
 
     <script>
+        /**
+         * 番号をクリップボードにコピーする予備機能
+         */
+        function copyNumber(text) {
+            const tempInput = document.createElement("input");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            
+            const toast = document.getElementById("copy-toast");
+            toast.className = "show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
         // フェードインの監視
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('visible');
             });
         }, { threshold: 0.1 });
-
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
         // スムーススクロール
